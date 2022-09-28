@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- Login form -->
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col signin-col d-block justify-content-center align-items-center">
+            <form action="{% url 'accounts:login' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="d-block signin-form">
+                    {% for message in messages %}
+                        <p id="messages"><i class="fa fa-exclamation-triangle"></i>{{ message }}</p>
+                    {% endfor %}
+                    <text class="title-text">Username</text><br>
+                    <input type="text" name="email" placeholder="email" class="custom-input"><br><br>
+                    <text class="title-text">Password</text><br>
+                    <input type="password" name="password" placeholder="password" class="custom-input"><br>
+                    <div class="d-flex justify-content-center mt-1">
+                        <span class="small-text d-block float-sm-none float-lg-right">Forgot password? <a href="#">Click here</a></span>
+                    </div>
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                    {% endif %}
+                    <br>
+                    <!-- An element to toggle between password visibility -->
+                    <!-- <label><input type="checkbox" onclick="myFunction()">Show Password</label><br> -->
+                    <button type="submit" class="btn custom-btn">Login</button>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-center mt-1">
+                    <span class="small-text d-block float-sm-none float-lg-right">
+                        Don't have an account? <a href="{% url 'accounts:register' %}">Create</a>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+
+{% endblock %}

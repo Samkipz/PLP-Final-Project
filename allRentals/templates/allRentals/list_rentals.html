@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    
+    
+    <div class="container">
+     
+        <div class="row d-flex justify-content-center align-items-end py-3 mx-0 border border-info" 
+        style="background-color: rgba(0, 0, 0, 0.616); border-radius: 5px;">
+        {% if ward_name != 'empty' %}
+            <div class="col-12 col-md-8 d-flex justify-content-start">
+                <h3 class="title-text text-info"> Rentals in {{ ward_name }} Ward {{ village_name }} Village </h3>
+            </div>
+            <div class="col-12 col-md-4 px-md-1 justify-content-end" >
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search Rental" aria-label="Search">
+                    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        {% else %}
+        <h3 class="title-text">Unfortunately, No Rentals have been uploaded for the selected Village </h3>
+        {% endif %}
+        </div>
+        {% for rental in rentals %}
+        <div class="container rental-container my-2 mb-3 mx-0"> 
+            <div class="row rental-row m-2 my-2">
+                <a href="{% url 'allRentals:rental_details' rental.id %}"><span class="rental-row-card"></span></a>
+                <div class="col-12 col-md-4 rental-col px-0">
+                    <img src= "{{ rental.img.url }}" class="img-fluid rental-img" alt="#">
+
+                    <!-- The Below overlay is only visible on small Screens -->
+                    <span class="overlay-items d-flex d-md-none">
+                        <div class="row p-1">
+                            <div class="col-12">Rental Name: {{ rental.name }}</div>
+                            <div class="col-12">Rent per month: kShs. {{ rental.rent }}</div>
+                            <div class="col-12">
+                                {% for i in '12345'|make_list %} 
+                                <!-- in every loop check if value is <= to rental_avg_score and, add property:checked -->
+                                    {% if i|floatformat:"0" <=  rental.avg_rating_score|floatformat:"0" %}
+                                        <span class="fa fa-star checked"></span>
+                                    {% else %}
+                                        <span class="fa fa-star"></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="col-12 mt-md-3 mt-lg-0 mb-lg-3 button-col d-flex align-items-start">
+                                {% if rental.availability != 0 %}
+                                <a class="btn btn-outline-info btnx btn1 mr-2" href="#" role="button">
+                                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                </a>
+                                {% else %}
+                                <a class="btn btn-outline-info btnx btn1 mr-2 disabled" href="{% url 'allRentals:book' rental.pk %}" role="button" aria-disabled="true">
+                                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                </a>
+                                {% endif %}
+                                
+                                <a class="btn btn-outline-info btnx btn2" href="#" role="button">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>Add Favorite
+                                </a>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+
+                <!-- The Below column is only visible on medium and Large Screens -->
+                <div class="col-12 col-md-4 d-none d-md-flex flex-column rental-col">
+                    <div class="row details-row">
+                        <h6 class="d-flex align-items-center mb-3 ml-3 text-info">Details</h6>
+                        <!-- <div class="col-12 mb-3">Rental Details</div> -->
+                        <div class="col-12 mb-3">Rental Name: {{ rental.name }}</div>
+                        <div class="col-12 mb-3">Rent per month: kShs. {{ rental.rent }}</div>
+                        <div class="col-12 mb-3">Availabilty:
+                            {% if rental.availability != 0 %}
+                             {{ rental.availability }} rooms available
+                            {% else %}
+                            <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Currently Full
+                            {% endif %}
+                        </div>
+                        <div class="col-12 mb-3 mb-lg-0">
+                            {% for i in '12345'|make_list %} 
+                                <!-- in every loop check if value is <= to rental_avg_score and, add property:checked -->
+                                    {% if i|floatformat:"0" <=  rental.avg_rating_score|floatformat:"0" %}
+                                        <span class="fa fa-star checked"></span>
+                                    {% else %}
+                                        <span class="fa fa-star"></span>
+                                    {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="col-12 mt-md-3 mt-lg-1 mb-lg-3 button-col d-flex align-items-start">
+                            {% if rental.availability != 0 %}
+
+                                {% if rental in booking %}
+                                    {% if rental in book_pending %}
+                                        <div class="btn-group" role="group" aria-label="Book Pending">
+                                            
+                                            <a class="btn btn-outline-warning btnx btn1 disabled" href="#" role="button" aria-disabled="true">
+                                                Booked: <i class="fa fa-clock-o" aria-hidden="true"></i> <small class="text-info">pending</small>
+                                            </a>
+                                            <form id="{{ rental.id }}" class="cancel-form" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger btnx btn1 mr-2" value="">
+                                                    <i class="fa fa-times x3" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {% else %}
+                                        {% if rental in book_accepted%}
+                                        <a class="btn btn-outline-success btnx btn1 mr-2 disabled" href="#" role="button" aria-disabled="true">
+                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>Booked
+                                        </a>
+                                        {% else %}
+                                        <form id="{{ rental.id }}" class="book-form" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-info btnx btn1 mr-2" value="">
+                                                <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                            </button>
+                                        </form>
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                        <!-- <p>{% url 'allRentals:book' rental.pk %}</p> -->
+                                        <form id="{{ rental.id }}" class="book-form" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-info btnx btn1 mr-2" value="">
+                                                <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                            </button>
+                                        </form>
+                                {% endif %}
+
+                            {% else %}
+                                <button type="submit" class="btn btn-outline-info btnx btn1 mr-2 disabled" aria-disabled="true">
+                                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                </button>
+                            {% endif %}
+                            
+                            <a class="btn btn-outline-info btnx btn2" href="#" role="button">
+                                <i class="fa fa-heart-o" aria-hidden="true"></i>Add Favorite
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col d-none d-md-block">
+                    <h6 class="d-flex align-items-center mb-2 text-info">Features</h6>
+                        <small>Security</small>
+                        <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small>Environment</small>
+                        <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small>Close to CBD</small>
+                        <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small>Neighbourhood</small>
+                        <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

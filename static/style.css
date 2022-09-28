@@ -1,0 +1,398 @@
+
+/* ------------ ONLINE FONTS AND FONT FAMILY --------------------- */
+@import url('https://fonts.googleapis.com/css?family=Tangerine|Lora'); 
+
+/* ------------------------BODY PROPERTIES -------- */
+body{
+    height: 100%;
+    font-family: Bell MT;
+    font-weight: normal;
+    font-size: 25px;
+    color: white;
+
+    
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.1) 100%), url(images/bodybg.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    /* height: 100%; */
+    position: relative;
+}
+
+
+.logo-img{
+    /* border: 1px solid red; */
+    /* width: 100px;
+    height: 80px; */
+    height: fit-content;
+    background-color: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.1) 100%);
+    margin-bottom: 0px;
+    object-fit: none;
+}
+.title-text{
+    font-size: 100%;
+}
+.mytitle{
+    text-align: center;
+    color: white;
+    font-size: 110%;
+    text-underline-offset: 1rem;
+    font-family: Bell MT;
+    position: relative;
+}
+.mytitle::after {
+    display: block;
+    content: '';
+    width: 80%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+}
+.small-text{
+    color: rgba(255, 255, 255, 0.87);
+    font-size: 55%;
+}
+.small-text a{
+    text-decoration:underline;
+    color: #17a2b8;
+}
+.mysubtitle{
+    text-align: center;
+    color: white;
+    font-size: 190%;
+    line-height: 80px;
+    font-family: Tangerine;
+    text-shadow: 4px 4px 4px #17a2b8;
+}
+.custom-btn{
+    background: #17a2b8;
+    color: white;
+    /* border-radius: 20px; */
+    font-family: Bell MT;
+    /* width: 0%; */
+}
+.custom-btn:hover{
+    background: #17a2b8;
+    background-color: rgba(30, 156, 172, 0.979);
+    color: white;
+    border: 1px solid #17a2b8;
+}
+
+.custom-input{
+    border: 1px solid #17a2b8;
+    height: 40px;
+    width: 300px;
+    border-radius: 10px;
+    /* background: rgb(235, 21, 21); */
+  }
+
+form .custom-btn{
+    background: #17a2b8;
+    color: white;
+    /* border-radius: 10px; */
+    font-family: Bell MT;
+    width: 80%;
+}
+form .custom-btn:hover{
+    background: #17a2b8;
+    background-color: rgba(30, 156, 172, 0.979);
+    color: white;
+    border: 1px solid #17a2b8;
+}
+
+footer{
+    background-color: rgba(31, 29, 29, 0.699);
+    padding: 5px;
+    border-radius: 10px;
+}
+/* ===================== ADD RENTAL PAGE ================ */
+.addrental{
+    background-color: rgba(0, 0, 0, 0.671);
+    padding: 5%;
+    font-size: 70%;
+    border-radius: 10px;
+}
+
+.addrental .row {
+    font-family: Lora;
+    font-style: italic;
+    font-size: 90%;
+    border-bottom: 1px solid #17a2b8;
+}
+.addrental input {
+    font-family: Lora;
+}
+.village_modal{
+    color: black;
+}
+a.mylink{
+    color: #17a2b8;
+    /* border: 1px solid red; */
+}
+a.mylink:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* ================== LIST RENTALS PAGE =========== */
+/* .main-btn{
+    color: #071633;
+    margin-top: 20px;
+    border: 1px solid black;
+    width: 200px;
+} */
+.rental-container{
+    padding: 5px;
+    font-size: 70%;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.671);
+}
+.rental-row{
+    position: relative;
+    height: 250px;
+    font-family: Lora;
+    background-color: rgba(0, 0, 0, 0.671);
+}
+.rental-row-card{
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left: 0;
+    z-index: 1;
+    border: 1px solid #626262;
+    border-radius: 5px;
+}
+.rental-row-card:hover{
+    background-color: rgba(0, 0, 0, 0.062);
+    transition: width 3s, height 4s ease-in-out 1s;
+    transform: scale(1.001, 1.001);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1px solid #626262;
+}
+.rental-col{
+    height: 100%;
+    position: relative;
+}
+
+.rental-col > img, .overlay-items {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.616);
+}
+.rental-img{
+    height: 100%;
+    width: 100%;
+
+    /* width: 330px; */
+    border-radius: 5px;
+    object-fit: cover;
+}
+.rental-col .details-row{
+    position: absolute;
+}
+.button-col{
+    /* border: 1px solid red; */
+    position: relative;
+    z-index: 999;
+}
+
+.button-col.btnx{
+    position: absolute;
+    z-index: 9999;
+}
+.button-col.bt1{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-size: 50%;
+    /* width: 125%; */
+}
+.button-col.bt2{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-size: 50%;
+}
+/*  btn1 {
+    position: absolute;
+    top: 90%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgba(17, 101, 146, 0.61);
+    color: white;
+    font-size: 18px;
+    border: 1px solid white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.dv-img .btn2 {
+    position: absolute;
+    top: 90%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgba(17, 101, 146, 0.61);
+    color: white;
+    font-size: 18px;
+    border: 1px solid white;
+    cursor: pointer;
+    border-radius: 5px;
+} */
+.dv-img .btnx:hover {
+  background-color: #0c3055;
+    border: 1px solid #626262;
+}
+
+/* ================== RENTAL DETAILS PAGE =========== */
+.carousel-inner {
+    max-height: 400px !important;
+}
+/* .corousel-row{
+    border: 1px solid black;
+} */
+/* .corousel-col{
+    border: 1px solid red;
+} */
+.corousel-col .carousel-item{
+    position:relative;
+    border: 1px solid white;
+    height: 400px;
+    border-radius: 5px;
+
+}
+.corousel-col .carousel-item img{
+    position: absolute;
+    /* border: 1px solid blue; */
+    height: 100%;
+    border-radius: 5px;
+}
+
+.description-row{
+    background-color: rgba(0, 0, 0, 0.671);
+    border-radius: 5px;
+}
+
+.description-row2 .nav a{
+    /* border: 2px solid red; */
+    background-color: rgba(255, 255, 255, 0.377);
+    color: black;
+}
+
+.rental-details-container .card{
+    /* border: 2px solid red; */
+    font-family: Lora;
+    font-size: 80%;
+    width: 100%;
+    color: black;
+}
+
+/* =============================== USER FEEDBACK AREA ==================== */
+.checked{
+    color: red;
+}
+.mybtn{
+    border: 0 !important;
+    background-color: inherit !important;
+}
+
+/*========================== Sign-in and Sign-up page========================*/
+/*------------------ Sign-in page ----------------------*/
+.signin-form{
+    text-align: center;
+}
+.signin-form .custom-input{
+    font-size: 70%;
+}
+  .signin-form .custom-btn {
+    background: #17a2b8;
+    color: white;
+    width: 300px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.signin-col{
+    background-color: rgba(0, 0, 0, 0.671);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* border: 1px solid white; */
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.signin-col input{
+    font-family: Lora;
+}
+/*------------------ Sign-up page ----------------------*/
+#messages {
+    border: 1px solid #17a2b8;
+    font-size: 70%;
+    color: rgba(255, 0, 0, 0.966);
+    border-radius: 10px;
+    padding-top: 2px;
+    padding: 3px;
+}
+
+/* ======================= TENANT PROFILE ================================= */
+
+
+.main-body {
+    padding: 15px;
+}
+
+.profile-col{
+    color: black;
+}
+.profile-col .card {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+}
+.profile-col .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    color: black;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.profile-col .card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm>.col, .gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+.mb-3, .my-3 {
+    margin-bottom: 1rem!important;
+}
+
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+.h-100 {
+    height: 100%!important;
+}
+.shadow-none {
+    box-shadow: none!important;
+}
+
+/* ================== MOBILE SCREEN VIEW ==================== */
+@media only screen and (max-width: 997px) {
+    .rental-container {
+      font-size: 60%;
+    }
+  }

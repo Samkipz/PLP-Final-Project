@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 d-none d-md-block"></div>
+            <div class="col-12 col-md-8 mt-2">
+                <form action="{% url 'accounts:register' %}" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row signin-col d-flex justify-content-center mb-2">
+                        {{ form.non_field_errors }}
+                        <div class="col-12">
+                            {{ form.first_name|as_crispy_field }}
+                        </div>
+                        {{ form.non_field_errors }}
+                        <div class="col-12">
+                            {{ form.last_name|as_crispy_field }}
+                        </div>
+                        {{ form.non_field_errors }}
+                        <div class="col-12">
+                            {{ form.email|as_crispy_field }}
+                        </div>
+                        {{ form.non_field_errors }}
+                        <div class="col-12">
+                            {{ form.phone_no|as_crispy_field }}
+                        </div>
+                        {{ form.non_field_errors }}
+                        <div class="col-12">
+                            {{ form.password1|as_crispy_field }}
+                        </div>
+                        {{ form.non_field_errors }}
+                        <div class="col-12">
+                            {{ form.password2|as_crispy_field }}
+                        </div>
+                        <button type="submit" class="btn custom-btn">Login</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2 d-none d-md-block"></div>
+        </div>
+    </div>
+{% endblock %}

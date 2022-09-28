@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1>
+    Dropdownlist page!
+</h1>
+
+<option value="">---------</option>
+{% for ward in wards %}
+    <option value="{{ ward.pk }}">{{ ward.name }}</option>
+{% endfor %}
+
+
+{% endblock %}

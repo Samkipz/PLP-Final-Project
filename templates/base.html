@@ -1,0 +1,111 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Fontawesome -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css" integrity="sha384-X8QTME3FCg1DLb58++lPvsjbQoCT9bp3MsUU3grbIny/3ZwUJkRNO8NPW6zqzuW9" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- style css -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <!-- ====================== SPECIAL JAVASCRIPT MODULES TO BE LOADED FAST ============== -->
+    <!-- TinyMCE -->
+    <script src="{% static 'tinymce/tinymce.min.js' %}"></script>
+    <!-- My Javascript -->
+    <script src="{% static 'main.js' %}" defer></script>
+
+    <!-- ================================ TITLE ========================= -->
+    <title>Trans Nzoia Rentals</title>
+  </head>
+  <body>
+
+    <div class="container-fluid">
+      <div class="row navbar-row mt-2 mt-md-4 d-flex align-items-center">
+        <!-- ================= LOGO SPACE ======================== -->
+        <div class="col-6 col-md-4 d-flex justify-content-center justify-content-md-start">
+            <a class="navbar-brand" href="/">
+                <img class="logo-img" src="{% static 'images/logo4.png' %}" alt="Logo">
+            </a>
+        </div>
+
+        <!-- ================= MY ACCOUNT BUTTON - A version for small screens only ============ -->
+        <!-- ================= THIS ROW WILL ONLY BE VISIBLE ON SMALL SCREENS ============ -->
+        <div class="col-6 d-flex justify-content-center d-md-none">
+          <div class="row">
+            <div class="col-6">
+
+              <!-- IF USER IS AUTHENTICATED (small screens only) -->
+              {% if user.is_authenticated %}
+              <div class="dropdown" >
+                <a class="btn custom-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-user-circle-o" aria-hidden="true"></i> Hi, {{ user.first_name }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Favourites</a>
+                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Messages</a>
+                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Rental booked</a>
+                  <hr>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+              </div>
+
+              <!-- IF USER IS NOT AUTHENTICATED (small screens only) -->
+              {% else %}
+              <div class="dropdown" >
+                <a class="btn custom-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-user-o" aria-hidden="true"></i> My Account
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Favourites</a>
+                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Messages</a>
+                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Rental booked</a>
+                  <hr>
+                  <a class="dropdown-item" href="{% url 'accounts:login' %}">Login</a>
+                </div>
+              </div>
+              {% endif %}
+              
+            </div>
+
+            <!-- =========== ADD RENTAL COLUMN and BUTTON A version for small screens only ======== -->
+            <div class="col-6 d-none d-md-block">
+              <a class="btn btn-info custom-btn" href="{% url 'allRentals:add_rental' %}" role="button" aria-expanded="false">
+                <i class="fa fa-home" aria-hidden="true"></i> Add rental
+              </a>
+            </div>
+          
+          </div>
+        </div>
+
+       <!-- =============================== WEB APPLICATION TITLE ================ -->
+        <div class="col-12 col-md-4">
+            <div class="col mytitle"> Trans-Nzoia Rentals </div>
+        </div>
+
+        <!-- ============== CREATE A NAVBAR SPACE THAT CAN BE OVERRIDEN ON OTHER PAGES =======-->
+        {% block my_navbar %} 
+        
+        {% endblock %}
+        <!-- # -->
+      </div>
+      
+    </div>
+    {% block content%}
+        
+    {% endblock %}
+    <!-- JavaScript Documents -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    
+  </body>
+</html>
