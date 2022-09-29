@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+CSRF_TRUSTED_ORIGINS = ["https://transnzoia-rentals.herokuapp.com"]
 
 ROOT_URLCONF = 'TransNzoia.urls'
 
