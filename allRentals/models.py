@@ -1,6 +1,7 @@
 from django.conf import settings
 from smart_selects.db_fields import ChainedForeignKey
 from tinymce.models import HTMLField 
+from ckeditor.fields import RichTextField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 from django.db import models
@@ -64,7 +65,7 @@ class Rental(models.Model):
         sort=True)
 
     availability = models.IntegerField()
-    content = HTMLField()
+    content = RichTextField(blank=True, null=True)
     img = models.ImageField(blank=True)
     total_rating_score = models.IntegerField(default=5)
     avg_rating_score = models.IntegerField(default=0)

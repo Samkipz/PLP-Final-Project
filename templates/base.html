@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <!-- Fontawesome -->
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css" integrity="sha384-X8QTME3FCg1DLb58++lPvsjbQoCT9bp3MsUU3grbIny/3ZwUJkRNO8NPW6zqzuW9" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -48,9 +47,9 @@
                   <i class="fa fa-user-circle-o" aria-hidden="true"></i> Hi, {{ user.first_name }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Favourites</a>
-                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Messages</a>
-                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Rental booked</a>
+                  <a class="dropdown-item" href="{% url 'accounts:userProfile' user.pk %}">Favourites</a>
+                    <a class="dropdown-item" href="{% url 'accounts:userProfile' user.pk %}">Messages</a>
+                    <a class="dropdown-item" href="{% url 'accounts:userProfile' user.pk %}">Rental booked</a>
                   <hr>
                   <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                 </div>
@@ -63,9 +62,9 @@
                   <i class="fa fa-user-o" aria-hidden="true"></i> My Account
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Favourites</a>
-                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Messages</a>
-                  <a class="dropdown-item" href="{% url 'accounts:profile' %}">Rental booked</a>
+                  <a class="dropdown-item" href="{% url 'accounts:login' %}">Favourites</a>
+                  <a class="dropdown-item" href="{% url 'accounts:login' %}">Messages</a>
+                  <a class="dropdown-item" href="{% url 'accounts:login' %}">Rental booked</a>
                   <hr>
                   <a class="dropdown-item" href="{% url 'accounts:login' %}">Login</a>
                 </div>

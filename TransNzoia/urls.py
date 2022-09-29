@@ -24,7 +24,6 @@ urlpatterns = [
     path('', include('allRentals.urls')),
     path('', include('smart_selects.urls')),
     path('tinymce/', include('tinymce.urls')),
-    path('ratings/', include('star_ratings.urls', namespace='ratings')),
     path('admin/', admin.site.urls),
 ]
 

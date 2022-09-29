@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% load thumbnail %}
-{% load ratings %}
+
 
 {% block content %}
 
@@ -29,6 +28,75 @@
                                 <img class="d-block w-100" src="{{ image.imgs.url }}" alt="First slide">
                             </div>
                         {% endfor %}
+
+                        <!-- ========== THE BELOW IMAGE OVERLAY IS ONLY VISIBLE ON SMALL SCREENS ======== -->
+                        <span class="overlay-items d-flex d-md-none">
+                            <div class="row p-1">
+                                <div class="col-12">Rental Name: {{ rental.name }}</div>
+                                <div class="col-12">Rent per month: kShs. {{ rental.rent }}</div>
+                                <div class="col-12">
+                                    {% for i in '12345'|make_list %} 
+                                    <!-- in every loop check if value is <= to rental_avg_score and, add property:checked -->
+                                        {% if i|floatformat:"0" <=  rental.avg_rating_score|floatformat:"0" %}
+                                            <span class="fa fa-star checked"></span>
+                                        {% else %}
+                                            <span class="fa fa-star"></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="col-12 mt-md-3 mt-lg-0 mb-lg-3 button-col d-flex align-items-start">
+                                    {% if rental.availability != 0 %}
+
+                                        {% if rental in booking %}
+                                            {% if rental in book_pending %}
+                                                <div class="btn-group" role="group" aria-label="Book Pending">
+                                                    
+                                                    <a class="btn btn-outline-warning btnx btn1 disabled" href="#" role="button" aria-disabled="true">
+                                                        Booked: <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                    </a>
+                                                    <form id="{{ rental.id }}" class="cancel-form" method="post">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-danger btnx btn1 mr-2" value="">
+                                                            <i class="fa fa-times x3" aria-hidden="true"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            {% else %}
+                                                {% if rental in book_accepted%}
+                                                <a class="btn btn-outline-success btnx btn1 mr-2 disabled" href="#" role="button" aria-disabled="true">
+                                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>Booked
+                                                </a>
+                                                {% else %}
+                                                <form id="{{ rental.id }}" class="book-form" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-outline-info btnx btn1 mr-2" value="">
+                                                        <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                                    </button>
+                                                </form>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% else %}
+                                                <!-- <p>{% url 'allRentals:book' rental.pk %}</p> -->
+                                                <form id="{{ rental.id }}" class="book-form" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-outline-info btnx btn1 mr-2" value="">
+                                                        <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                                    </button>
+                                                </form>
+                                        {% endif %}
+
+                                    {% else %}
+                                        <button type="submit" class="btn btn-outline-info btnx btn1 mr-2 disabled" aria-disabled="true">
+                                            <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                        </button>
+                                    {% endif %}
+                                    
+                                    <a class="btn btn-outline-info btnx btn2" href="#" role="button">
+                                        <i class="fa fa-heart-o" aria-hidden="true"></i>Add Favorite
+                                    </a>
+                                </div>
+                            </div>
+                        </span>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -40,21 +108,82 @@
                     </a>
                 </div>
             </div>
-            <div class="col d-none d-lg-flex flex-column col-lg-4">
-                <div class="card mb-3" style="width: 18rem;">
+            <div class="col d-none d-lg-flex flex-column col-lg-4 justify-content-center" 
+            style="background-color: rgba(0, 0, 0, 0.671); border-radius: 5px; font-size: 85%;">
+                <div class="card mb-2" style="width: 22rem;">
                     <div class="card-body">
-                      <h5 class="card-title text-info">Landlord details </h5>
-                      <p class="card-text">With supporting content.</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                      <h5 class="card-title text-info border-bottom border-danger  ">Landlord details </h5>
+                      <p class="card-text"> <text class="text-info">Landlord: </text> {{ rental.landlord }}</p>
+                      <p class="card-text"><text class="text-info">Phone: </text> {{ rental.landlord.phone_no }}</p>
+                      <a href="{% url 'accounts:userProfile' rental.landlord.pk %}" class="btn btn-info"> View more </a>
+                      <a href="#" class="btn btn-outline-info"> Message landlord </a>
+                    </div> 
+                </div>
+                <div class="card" style="width: 22rem;">
+                    <div class="card-body pt-1 pb-2">
+                      <p class="card-text medium-text text-danger"><text class="text-info">Name: </text> {{ rental.name }} </p>
+                      <p class="card-text medium-text text-danger"><text class="text-info">Monthly Rent: </text> kShs. {{ rental.rent }} </p>
+                      <p class="card-text text-danger">
+                            {% if rental.availability != 0 %}
+                             <i class="fa fa-check-square-o" aria-hidden="true"></i> Available for booking
+                            {% else %}
+                                <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Currently Full
+                            {% endif %} </p>
+                      <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                      <div class="button-col d-flex align-items-start">
+                        {% if rental.availability != 0 %}
+    
+                            {% if rental in booking %}
+                                {% if rental in book_pending %}
+                                    <div class="btn-group" role="group" aria-label="Book Pending">
+                                        
+                                        <a class="btn btn-warning btnx btn1 disabled" href="#" role="button" aria-disabled="true">
+                                            Booked: <i class="fa fa-clock-o" aria-hidden="true"></i> 
+                                        </a>
+                                        <form id="{{ rental.id }}" class="cancel-form" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btnx btn1 mr-2" value="">
+                                                <i class="fa fa-times x3" aria-hidden="true"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                {% else %}
+                                    {% if rental in book_accepted%}
+                                    <a class="btn btn-success btnx btn1 mr-2 disabled" href="#" role="button" aria-disabled="true">
+                                        <i class="fa fa-check-square-o" aria-hidden="true"></i>Booked
+                                    </a>
+                                    {% else %}
+                                    <form id="{{ rental.id }}" class="book-form" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-info btnx btn1 mr-2" value="">
+                                            <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                    <!-- <p>{% url 'allRentals:book' rental.pk %}</p> -->
+                                    <form id="{{ rental.id }}" class="book-form" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-info btnx btn1 mr-2" value="">
+                                            <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                        </button>
+                                    </form>
+                            {% endif %}
+    
+                        {% else %}
+                            <button type="submit" class="btn btn-info btnx btn1 mr-2 disabled" aria-disabled="true">
+                                <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                            </button>
+                        {% endif %}
+                        
+                        <a class="btn btn-outline-info btnx btn2" href="#" role="button">
+                            <i class="fa fa-heart-o" aria-hidden="true"></i>Add Favorite
+                        </a>
+                    </div>
                     </div>
                 </div>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                      <h5 class="card-title">Special title treatment</h5>
-                      <p class="card-text">With supporting text below as n to additional content.</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
+                
             </div>
         </div>
         <div class="row description-row my-3 my-md-4">

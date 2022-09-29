@@ -30,7 +30,7 @@
                 <div class="col-12 col-md-4 rental-col px-0">
                     <img src= "{{ rental.img.url }}" class="img-fluid rental-img" alt="#">
 
-                    <!-- The Below overlay is only visible on small Screens -->
+                    <!-- ========== THE BELOW IMAGE OVERLAY IS ONLY VISIBLE ON SMALL SCREENS ======== -->
                     <span class="overlay-items d-flex d-md-none">
                         <div class="row p-1">
                             <div class="col-12">Rental Name: {{ rental.name }}</div>
@@ -47,13 +47,49 @@
                             </div>
                             <div class="col-12 mt-md-3 mt-lg-0 mb-lg-3 button-col d-flex align-items-start">
                                 {% if rental.availability != 0 %}
-                                <a class="btn btn-outline-info btnx btn1 mr-2" href="#" role="button">
-                                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
-                                </a>
+
+                                    {% if rental in booking %}
+                                        {% if rental in book_pending %}
+                                            <div class="btn-group" role="group" aria-label="Book Pending">
+                                                
+                                                <a class="btn btn-outline-warning btnx btn1 disabled" href="#" role="button" aria-disabled="true">
+                                                    Booked: <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                </a>
+                                                <form id="{{ rental.id }}" class="cancel-form" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger btnx btn1 mr-2" value="">
+                                                        <i class="fa fa-times x3" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        {% else %}
+                                            {% if rental in book_accepted%}
+                                            <a class="btn btn-outline-success btnx btn1 mr-2 disabled" href="#" role="button" aria-disabled="true">
+                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>Booked
+                                            </a>
+                                            {% else %}
+                                            <form id="{{ rental.id }}" class="book-form" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-info btnx btn1 mr-2" value="">
+                                                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                                </button>
+                                            </form>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% else %}
+                                           
+                                            <form id="{{ rental.id }}" class="book-form" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-info btnx btn1 mr-2" value="">
+                                                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                                </button>
+                                            </form>
+                                    {% endif %}
+
                                 {% else %}
-                                <a class="btn btn-outline-info btnx btn1 mr-2 disabled" href="{% url 'allRentals:book' rental.pk %}" role="button" aria-disabled="true">
-                                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
-                                </a>
+                                    <button type="submit" class="btn btn-outline-info btnx btn1 mr-2 disabled" aria-disabled="true">
+                                        <i class="fa fa-handshake-o" aria-hidden="true"></i>Book Now
+                                    </button>
                                 {% endif %}
                                 
                                 <a class="btn btn-outline-info btnx btn2" href="#" role="button">

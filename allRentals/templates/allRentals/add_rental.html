@@ -15,21 +15,22 @@
                 <form action="{% url 'allRentals:add_rental' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ rental_form.media.js }}
+                    {{ rental_form.media }}
                     <!-- #{{ form|crispy}} -->
                     {% for field in rental_form %}
-                            {{ field.errors }}
-                            {{ field|as_crispy_field }}
-                            {% if field.name == "ward" %}
+                        {{ field.errors }}
+                        {{ field|as_crispy_field }}
+                        {% if field.name == "ward" %}
 
-                            <div class="mt-0" id="addVillage">
-                                <div style="float:right">Can't find your village?
-                                    <a class="mylink"><span><i class="fa fa-plus"></i>Add it here </span></a>
-                                </div>
+                        <div class="mt-0" id="addVillage">
+                            <div style="float:right">Can't find your village?
+                                <a class="mylink"><span><i class="fa fa-plus"></i>Add it here </span></a>
                             </div>
-                            
-                            <div id="addVillageModal" class="modal fade" role="dialog"> </div>
+                        </div>
+                        
+                        <div id="addVillageModal" class="modal fade" role="dialog"> </div>
 
-                            {% endif %}
+                        {% endif %}
                     {% endfor %}
 
                     {% for image in images_form %}

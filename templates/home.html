@@ -18,24 +18,24 @@
                     <i class="fa fa-user-circle-o" aria-hidden="true"></i> Hi, {{ user.first_name }}
                   </a>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Favourites</a>
-                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Messages</a>
-                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Rental booked</a>
+                    <a class="dropdown-item" href="{% url 'accounts:userProfile' user.pk %}">Favourites</a>
+                    <a class="dropdown-item" href="{% url 'accounts:userProfile' user.pk %}">Messages</a>
+                    <a class="dropdown-item" href="{% url 'accounts:userProfile' user.pk %}">Rental booked</a>
                     <hr>
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                   </div>
                 </div>
 
-              <!-- IF USER IS NOT AUTHENTICATED (medium and large screens) -->
+              <!-- IF USER IS NOT AUTHENTICATED (medium and large screens) --> 
               {% else %}
                 <div class="dropdown" >
                   <a class="btn custom-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-user-o" aria-hidden="true"></i> My Account
                   </a>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Favourites</a>
-                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Messages</a>
-                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">Rental booked</a>
+                    <a class="dropdown-item" href="{% url 'accounts:login' %}">Favourites</a>
+                    <a class="dropdown-item" href="{% url 'accounts:login' %}">Messages</a>
+                    <a class="dropdown-item" href="{% url 'accounts:login' %}">Rental booked</a>
                     <hr>
                     <a class="dropdown-item" href="{% url 'accounts:login' %}">Login</a>
                   </div>

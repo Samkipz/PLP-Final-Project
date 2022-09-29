@@ -1,8 +1,8 @@
 
-from urllib import response
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView
+from django.forms.models import modelformset_factory
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -38,12 +38,7 @@ def list_rentals(request):
 
             if request.user.is_authenticated:
                 bookings = Booked.objects.filter(user=request.user) #retrieve all rentals current user has booked
-                print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-                print(rentals)
-                print(bookings)
-
                 
-
                 if bookings: 
                     print(bookings) #for debugging purpose
 
@@ -61,18 +56,13 @@ def list_rentals(request):
                         for b in bookings:
                             if b.is_pending and b.booked==False:
                                 if b.rental == rental:
-                                    print(rental)
                                     book_pending.append(rental)
                             elif b.is_pending==False and b.booked==True:
                                 if b.rental == rental:
-                                    print(rental)
                                     book_accepted.append(rental)
                             else:
                                 pass            #or rather, pass an empty list
-                    print(booking)
-                    print(book_pending)
-                    print(book_accepted)
-            
+                    
 
         else: #if rentals with selected village does not exist
             ward_name = 'empty'
@@ -99,12 +89,6 @@ def book(request, id):
         user = request.user
         rental_id = request.POST.get('rental_id')
         r = Rental.objects.get(pk=rental_id)
-
-        print('##################')
-        print('user -- ',user)
-        print('rental id ---',rental_id)
-        print("renta---- ",r)
-        print('##################')
         
         try:
             obj = Booked.objects.get(rental=r, user=user)
@@ -119,13 +103,6 @@ def book(request, id):
             obj.user = user
             obj.is_pending = True
             obj.booked = False
-            print('>>>>>>>>>>>>>>>>>>>>>>')
-            print(obj.rental)
-            print(obj.user)
-            print('is_pending --- ',obj.is_pending)
-            print('is_booked --- ',obj.booked)
-            print(obj)
-            print('>>>>>>>>>>>>>>>>>>>>>>')
             obj.save()
     # return HttpResponseRedirect(request.path)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -136,10 +113,6 @@ def bookCancel(request, id):
         user = request.user
         r = Rental.objects.get(pk=rental_id)
 
-        print('##################')
-        print('user -- ',user)
-        print('rental id ---',rental_id)
-        
 
         obj = Booked.objects.get(rental=r, user=user)
         print('##################')
@@ -172,7 +145,7 @@ def add_rental(request):
                 image.rental_id = instance.id #get the rental_id the image belongs to
                 image.imgs = each_image #get image property, i.e name and path(optional, can be ignored for security resons)
                 image.save()
-            return redirect('allRentals:list_rentals')
+        return redirect('/')
     else:
         form = RentalForm()
         images_form = PostImagesForm()
@@ -183,6 +156,29 @@ def add_rental(request):
         'images_form': images_form,
     }
     return render(request, 'allRentals/add_rental.html', context)
+
+def edit_rental(request, id=None):
+    obj = get_object_or_404(Rental, id=id)
+    images = PostImages.objects.filter(rental = obj)
+    form = RentalForm(request.POST or None, instance=obj)
+    images_form = PostImagesForm(request.POST or None, request.FILES)
+
+    files = request.FILES.getlist('imgs')
+
+    if form.is_valid():
+        instance = form.save()
+        for each_image in files:
+            image = PostImages() #assign PostImages model to images
+            image.rental_id = instance.id #get the rental_id the image belongs to
+            image.imgs = each_image #get image property, i.e name and path(optional, can be ignored for security resons)
+            image.save()
+        return redirect('/')
+    context = {
+        'rental_form':form,
+        'images_form': images_form,
+    }
+      
+    return render(request, 'allRentals/edit_rental.html',context )
 
 def load_wards(request):
     constituency_id = request.GET.get('constituency')
@@ -202,11 +198,44 @@ def rental_details(request, id=None):
     obj = get_object_or_404(Rental, id=id)
     images = PostImages.objects.filter(rental=obj)
     feedback = UserFeedback.objects.filter(rental=obj)
+
+    booking = []
+    book_pending = []
+    book_accepted = []
+    if request.user.is_authenticated:
+        bookings = Booked.objects.filter(user=request.user) #retrieve all rentals current user has booked
+        
+        if bookings: 
+            print(bookings) #for debugging purpose
+
+            """ We need to check if in current retrived rentals,
+                there are those the current user has booked,
+                if so - check whether the booked rentals are still pending,
+                are accepted by landlord or are objects that were booked but later
+                canceled i.e. not pending and not booked
+                --if so, then, pass those rentals to template as a list called booking,
+                pass pending rentals as book_pending and accepted as book_accepted """
+
+            [booking.append(b.rental) for b in bookings]
+
+            
+            for b in bookings:
+                if b.is_pending and b.booked==False:
+                    if b.rental == obj:
+                        book_pending.append(obj)
+                elif b.is_pending==False and b.booked==True:
+                    if b.rental == obj:
+                        book_accepted.append(obj)
+                else:
+                    pass            #or rather, pass an empty list
    
     context ={
         "rental": obj,
         "rental_images": images,
         "feedback": feedback,
+        'booking': booking,
+        'book_pending': book_pending,
+        'book_accepted': book_accepted,
     }
     return render(request, 'allRentals/rental_details.html', context)
 
@@ -256,23 +285,9 @@ def add_feedback(request, id):
             r.total_rating_score = total_score
             r.avg_rating_score = avg_score
             
-
-            print('>>>>>>>>>>>>>>>>>>>')
-            print("rental is -- ",obj.rental)
-            print("Village is -- ",obj.rental.village)
-            print("User has rated is -- ",obj.score, "stars")
-            print("Total rating is -- ",r.total_rating_score)
-            print("Average rating is -- ",r.avg_rating_score)
-            print("The message is -- ",obj.user_msg)
-            print("User email is -- ",obj.user.email)
-            print('>>>>>>>>>>>>>>>>>>>')
-            
             r.save()
             obj.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-class RentalUpdateView(UpdateView):
-    model = Rental
-    form_class = RentalForm
-    success_url = reverse_lazy('rental_list')
+
 

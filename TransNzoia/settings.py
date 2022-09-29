@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'smart_selects',
     'crispy_forms',
     'tinymce',
+    'ckeditor',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -147,3 +148,5 @@ LOGOUT_REDIRECT_URL = '/'
 
 USE_DJANGO_JQUERY = True
 
+import django_heroku
+django_heroku.settings(locals())
