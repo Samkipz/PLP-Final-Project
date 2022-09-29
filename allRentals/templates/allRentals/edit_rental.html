@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-2 d-none d-lg-block"></div>
+        <div class="col">
+            <div class="addrental">
+                <div class="row d-flex justify-content-center m-1 m-md-0 mb-md-2">
+                    Please fill out the rental details. Fields marked with * are compulsory
+                </div>
+                <form  method="post">
+                    {% csrf_token %}
+                    {{ rental_form.media }}
+                    {% for field in rental_form %}
+                        {{ field.errors }}
+                        {{ field|as_crispy_field }}
+                    {% endfor %}
+
+                    {% for image in images_form %}
+                        {{ image|as_crispy_field }}
+                    {% endfor %}
+                                  
+                
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn custom-btn"> Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

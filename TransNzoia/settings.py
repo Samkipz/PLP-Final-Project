@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-adn20qz1a)7@2xg_(-#98o-tr772r2lpt#)q_ey@!0!z9#repz'
+# SECRET_KEY = 'django-insecure-adn20qz1a)7@2xg_(-#98o-tr772r2lpt#)q_ey@!0!z9#repz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'allRentals',
     'smart_selects',
     'crispy_forms',
-    'tinymce',
     'ckeditor',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

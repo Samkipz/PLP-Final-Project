@@ -1,6 +1,5 @@
 from django.conf import settings
 from smart_selects.db_fields import ChainedForeignKey
-from tinymce.models import HTMLField 
 from ckeditor.fields import RichTextField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
