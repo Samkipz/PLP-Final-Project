@@ -27,15 +27,6 @@ class Ward(models.Model):
 class Village(models.Model):
     constituency = models.ForeignKey(Constituency, on_delete=models.SET_NULL, null=True)
     ward = models.ForeignKey(Ward, on_delete=models.SET_NULL, null=True)
-    # constituency = models.ForeignKey(Constituency, on_delete=models.CASCADE, null=True)
-    # ward = ChainedForeignKey(
-    #     Ward,
-    #     chained_field="constituency",
-    #     chained_model_field="constituency",
-    #     show_all=False,
-    #     auto_choose=True,
-    #     sort=True)
-    # ward = models.ForeignKey(Ward, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=30)
     
     def __str__(self):

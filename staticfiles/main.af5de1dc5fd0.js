@@ -21,7 +21,7 @@ const csrf = document.getElementsByName('csrfmiddlewaretoken')
 -----------------------------------------------------------------------------------------------*/
 const handleStarSelect = (size) => {
     const children = form.children[2].children
-    for(let i=1; i<children.length; i++){
+    for(let i=0; i<children.length; i++){
         if(i <= size) {
             children[i].classList.add('checked')
         }
@@ -39,23 +39,23 @@ then for every case, if true, we call the handleStarSelect function
 const handleSelect = (selection) => {
     switch(selection){
         case 'first':{
-            handleStarSelect(1)
+            handleStarSelect(0)
             return
         }
         case 'second':{
-            handleStarSelect(2)
+            handleStarSelect(1)
             return
         }
         case 'third':{
-            handleStarSelect(3)
+            handleStarSelect(2)
             return
         }
         case 'fourth':{
-            handleStarSelect(4)
+            handleStarSelect(3)
             return
         }
         case 'fifth':{
-            handleStarSelect(5)
+            handleStarSelect(4)
             return
         }
     }
